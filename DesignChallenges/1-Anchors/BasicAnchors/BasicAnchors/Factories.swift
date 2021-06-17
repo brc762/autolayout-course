@@ -12,9 +12,9 @@ func makeLabel(withText text: String) -> UILabel {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = text
-    label.textColor = .white
     label.font = UIFont.systemFont(ofSize: 17)
-
+    label.textColor = .white
+    label.numberOfLines = 0 // multiline
     return label
 }
 
@@ -48,10 +48,11 @@ func makeSwitch(isOn: Bool) -> UISwitch {
 }
 
 func makeProgressView() -> UIProgressView {
-    let progressView = UIProgressView(progressViewStyle: .default)
+    let progressView = UIProgressView(progressViewStyle: .bar)
     progressView.translatesAutoresizingMaskIntoConstraints = false
-    progressView.tintColor = .gray
-
+    progressView.tintColor = .white
+    progressView.progressTintColor = .green
+    progressView.setProgress(85.0, animated: true)
     return progressView
 }
 

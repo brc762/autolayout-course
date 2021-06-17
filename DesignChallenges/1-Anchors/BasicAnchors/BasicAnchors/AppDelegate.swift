@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         let navigatorController = UINavigationController(rootViewController: Challenge())
-//        let navigatorController = UINavigationController(rootViewController: Solution())
+//       let navigatorController = UINavigationController(rootViewController: Solution())
 
         window?.rootViewController = navigatorController
 
