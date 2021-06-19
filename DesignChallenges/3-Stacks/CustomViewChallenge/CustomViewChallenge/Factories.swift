@@ -8,7 +8,7 @@
 
 import UIKit
 
-func makeLabel(withText text: String) -> UILabel {
+func makeLabel(withText text: String = "") -> UILabel {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = text
@@ -51,7 +51,6 @@ func makeProgressView() -> UIProgressView {
     let progressView = UIProgressView(progressViewStyle: .default)
     progressView.translatesAutoresizingMaskIntoConstraints = false
     progressView.tintColor = .gray
-
     return progressView
 }
 

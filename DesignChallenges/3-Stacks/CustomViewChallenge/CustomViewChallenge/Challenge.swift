@@ -9,28 +9,28 @@
 import UIKit
 
 class Challenge: UIViewController {
-
+    
     let margin: CGFloat = 20
     let spacing: CGFloat = 32
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupViews()
     }
-
+    
     func setupNavigationBar() {
         navigationItem.title = "Playback"
     }
-
+    
     /*
      
      Challenge here is to take the various controls and practice extracting components as subViews (UIViews).
-
+     
      Two good candidates for extraction are the:
-
-      - RowView (label and a switch)
-      - CrossfadeView (label, progressbar, and max min label)
+     
+     - RowView (label and a switch)
+     - CrossfadeView (label, progressbar, and max min label)
      
      ┌───────────────┐        ┌───────────────┐
      │               │        │               │
@@ -49,82 +49,64 @@ class Challenge: UIViewController {
      
      */
     func setupViews() {
-        let offlineLabel = makeLabel(withText: "Offline")
-        let offlineSwitch = makeSwitch(isOn: false)
+        
         let offlineSublabel = makeSubLabel(withText: "When you go offline, you'll only be able to play the music and podcasts you've downloaded.")
-
-        let crossfadeLabel = makeBoldLabel(withText: "Crossfade")
-        let crossfadeMinLabel = makeSubLabel(withText: "0s")
-        let crossfadeMaxLabel = makeSubLabel(withText: "12s")
-        let crossfadeProgressView = makeProgressView()
-
-        let gaplessPlaybackLabel = makeLabel(withText: "Gapless Playback")
-        let gaplessPlaybackSwitch = makeSwitch(isOn: true)
-
-        let hideSongsLabel = makeLabel(withText: "Hide Unplayable Songs")
-        let hideSongsSwitch = makeSwitch(isOn: true)
-
-        let enableNormalizationLabel = makeLabel(withText: "Enable Audio Normalization")
-        let enableNormalizationSwitch = makeSwitch(isOn: true)
-
-        view.addSubview(offlineLabel)
-        view.addSubview(offlineSwitch)
-        view.addSubview(offlineSublabel)
-
-        view.addSubview(crossfadeLabel)
-        view.addSubview(crossfadeMinLabel)
-        view.addSubview(crossfadeProgressView)
-        view.addSubview(crossfadeMaxLabel)
-
-        view.addSubview(gaplessPlaybackLabel)
-        view.addSubview(gaplessPlaybackSwitch)
-
-        view.addSubview(hideSongsLabel)
-        view.addSubview(hideSongsSwitch)
-
-        view.addSubview(enableNormalizationLabel)
-        view.addSubview(enableNormalizationSwitch)
-
-        offlineLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: margin).isActive = true
-        offlineLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-
-        offlineSwitch.centerYAnchor.constraint(equalTo: offlineLabel.centerYAnchor).isActive = true
-        offlineSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
-
-        offlineSublabel.topAnchor.constraint(equalTo: offlineLabel.bottomAnchor, constant: margin).isActive = true
-        offlineSublabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-        offlineSublabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
-
-        crossfadeLabel.topAnchor.constraint(equalTo: offlineSublabel.bottomAnchor, constant: spacing).isActive = true
-        crossfadeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        crossfadeMinLabel.topAnchor.constraint(equalTo: crossfadeLabel.bottomAnchor, constant: spacing).isActive = true
-        crossfadeMinLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-
-        crossfadeProgressView.centerYAnchor.constraint(equalTo: crossfadeMinLabel.centerYAnchor).isActive = true
-        crossfadeProgressView.leadingAnchor.constraint(equalTo: crossfadeMinLabel.trailingAnchor, constant: 4).isActive = true
-        crossfadeProgressView.trailingAnchor.constraint(equalTo: crossfadeMaxLabel.leadingAnchor, constant: -4).isActive = true
-
-        crossfadeMaxLabel.centerYAnchor.constraint(equalTo: crossfadeMinLabel.centerYAnchor).isActive = true
-        crossfadeMaxLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
-
-        gaplessPlaybackLabel.topAnchor.constraint(equalTo: crossfadeMinLabel.bottomAnchor, constant: spacing).isActive = true
-        gaplessPlaybackLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-
-        gaplessPlaybackSwitch.centerYAnchor.constraint(equalTo: gaplessPlaybackLabel.centerYAnchor).isActive = true
-        gaplessPlaybackSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
-
-        hideSongsLabel.topAnchor.constraint(equalTo: gaplessPlaybackLabel.bottomAnchor, constant: spacing).isActive = true
-        hideSongsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-
-        hideSongsSwitch.centerYAnchor.constraint(equalTo: hideSongsLabel.centerYAnchor).isActive = true
-        hideSongsSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
-
-        enableNormalizationLabel.topAnchor.constraint(equalTo: hideSongsLabel.bottomAnchor, constant: spacing).isActive = true
-        enableNormalizationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin).isActive = true
-
-        enableNormalizationSwitch.centerYAnchor.constraint(equalTo: enableNormalizationLabel.centerYAnchor).isActive = true
-        enableNormalizationSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin).isActive = true
+        let offlineRow = RowView.init(title: "Offline", isEnable: false)
+        offlineRow.translatesAutoresizingMaskIntoConstraints = false
+        let crossfade = CrossfadeView.init(viewData: CrossfadeViewData.init(minSeconds: "0s", maxSeconds: "12s", title: "Crossfade", progress: 75.5))
+        crossfade.translatesAutoresizingMaskIntoConstraints = false
+        let gaplessRow = RowView.init(title: "Gapless Playback", isEnable: true)
+        gaplessRow.translatesAutoresizingMaskIntoConstraints = false
+        let hideRow = RowView.init(title: "Hide Unplayable Songs", isEnable: true)
+        hideRow.translatesAutoresizingMaskIntoConstraints = false
+        let nathanyRow = RowView.init(title: "Um beijo na Nathany?", isEnable: true)
+        nathanyRow.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(offlineRow)
+        self.view.addSubview(offlineSublabel)
+        self.view.addSubview(crossfade)
+        self.view.addSubview(gaplessRow)
+        self.view.addSubview(hideRow)
+        self.view.addSubview(nathanyRow)
+        
+        NSLayoutConstraint.activate([
+            offlineRow.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            offlineRow.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            offlineRow.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            offlineSublabel.topAnchor.constraint(equalTo: offlineRow.bottomAnchor, constant: 32),
+            offlineSublabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            offlineSublabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16)
+        ])
+        
+        crossfade.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        NSLayoutConstraint.activate([
+            crossfade.topAnchor.constraint(equalTo: offlineSublabel.bottomAnchor, constant: 32),
+            crossfade.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            crossfade.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
+            crossfade.heightAnchor.constraint(greaterThanOrEqualToConstant:50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            gaplessRow.topAnchor.constraint(equalTo: crossfade.bottomAnchor, constant: 32),
+            gaplessRow.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            gaplessRow.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            hideRow.topAnchor.constraint(equalTo: gaplessRow.bottomAnchor, constant: 16),
+            hideRow.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            hideRow.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nathanyRow.topAnchor.constraint(equalTo: hideRow.bottomAnchor, constant: 16),
+            nathanyRow.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            nathanyRow.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16)
+        ])
+        
     }
 }
 
