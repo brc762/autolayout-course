@@ -74,12 +74,17 @@ class Challenge: UIViewController {
             stackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0)
         ])
         
+        stackView.spacing = 20
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets.init(top: 16, leading: 8, bottom: 8, trailing: 16)
+        
         stackView.addArrangedSubview(offlineRow)
         stackView.addArrangedSubview(offlineSublabel)
         stackView.addArrangedSubview(crossfadeView)
         stackView.addArrangedSubview(gaplessRow)
         stackView.addArrangedSubview(hideSongsRow)
         stackView.addArrangedSubview(normalizationRow)
+        
     }
 }
 
