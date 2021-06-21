@@ -40,17 +40,27 @@ class BlueView: UIView {
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         // Dynamic constraints
-        topAnchorConstraint = label.topAnchor.constraint(equalTo: topAnchor, constant: 8)
+        topAnchorConstraint = label.topAnchor.constraint(equalTo: topAnchor, constant: 16)
         centerYAnchorConstraint = label.centerYAnchor.constraint(equalTo: centerYAnchor)
         
         adjustConstraints()
     }
     
-    func adjustConstraints() {
+    func adjustPortraitConstraint() {
+        topAnchorConstraint.isActive = true
+        centerYAnchorConstraint.isActive = false
+    }
+    
+    func adjustLandscapConstraint() {
+        topAnchorConstraint.isActive = false
+        centerYAnchorConstraint.isActive = true
+    }
+    
+    private func adjustConstraints() {
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            // Fill in these values here
+            adjustPortraitConstraint()
         } else {
-            // Fill in these values here
+            adjustLandscapConstraint()
         }
     }
     

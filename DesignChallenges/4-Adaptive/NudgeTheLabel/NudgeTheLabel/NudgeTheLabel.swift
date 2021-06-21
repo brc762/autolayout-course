@@ -53,11 +53,13 @@ class NudgeTheLabel: UIViewController {
     }
     
     @objc func rotated() {
-        blueView.adjustConstraints()
+       
         
         if UIDevice.current.orientation.isLandscape {
+            blueView.adjustLandscapConstraint()
             stackView.axis = .horizontal
         } else {
+            blueView.adjustPortraitConstraint()
             stackView.axis = .vertical
         }
     }
